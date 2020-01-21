@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% if current_user.display == 1 %}
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='whiteback.css') }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% elif current_user.display == 0 %}
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% else %}
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='whiteback.css') }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% endif %}
+
+
+
+	{% if title %}
+		<title>hashter - {{ title }}</title>
+	{% else %}
+		<title>hashter</title>
+	{% endif %}
+</head>
+<body>
+	<header id="main-header">
+		{% if current_user.is_authenticated %}
+			<img id="primary-pic" src="{{ url_for('static', filename='profile_pics/' +										current_user.image_file) }}">
+		{% else %}
+			<img id="primary-pic" src="{{ url_for('static', filename='profile_pics/tenofcups.png') }}">
+		{% endif %}
+		<pre id="logo"><a href="{{ url_for('users.login') }}">::   .:   :::.     .::::::.   ::   .: ::::::::::::.,:::::: :::::::..
+ ,;;   ;;,  ;;`;;   ;;;`    `  ,;;   ;;,;;;;;;;;'''';;;;'''' ;;;;``;;;;
+,[[[,,,[[[ ,[[ '[[, '[==/[[[[,,[[[,,,[[[     [[      [[cccc   [[[,/[[['
+"$$$"""$$$c$$$cc$$$c  '''    $"$$$"""$$$     $$      $$""""   $$$$$$c
+ 888   "88o888   888,88b    dP 888   "88o    88,     888oo,__ 888b "88bo,
+ MMM    YMMYMM   ""`  "YMmMY"  MMM    YMM    MMM     """"YUMMMMMMM   "W"</a></pre>
+	</header>
+	<nav id="navbar">
+
+		<ul>
+			<li><a href="{{ url_for('main.home') }}">home</a></li>
+			<li><a href="{{ url_for('posts.everything') }}">deluge</a></li>
+			<li><a href="{{url_for('posts.new_post') }}">post</a></li>
+			<li><a href="{{ url_for('users.invite') }}">tribe</a></li>
+			{% if current_user.is_authenticated %}
+				<li><a href="{{url_for('users.account') }}">mine</a></li>
+				<li><a href="{{url_for('users.logout') }}">logout</a></li>
+			{% else %}
+				<li><a href="{{url_for('users.register') }}">register</a></li>
+				<li><a href="{{url_for('users.login') }}">login</a></li>
+			{% endif %}
+		</ul>
+	</nav>
+
+	<div class="blog-text">
+		{%  with messages = get_flashed_messages(with_categories=true)%}
+			{% if messages %}
+				{% for category, message in messages %}
+					<div class="alert alert-{{ category }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		{% block content %}{% endblock %}
+	</div>
+</body>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</html>

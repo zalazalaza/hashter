@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="ml form-fill"> 
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="half-width">
+				<legend >amnesia</legend>
+				<div class="form-group">
+					{{ form.email.label(class="label-control") }}
+					{% if form.email.errors %}
+						<div class="alert">
+							{% for error in form.email.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.email(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.email(class="form-control")}}
+					{% endif %}
+				</div>
+				
+				<div class="submit">
+					<a href="#">{{ form.submit(class="btn") }}</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+{% endblock content %}
+	

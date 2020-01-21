@@ -1,0 +1,36 @@
+{% extends "chat_template.html" %}
+{% block content %}
+	{{ name }}
+	<script class='mini-text' type="text/javascript">
+		$(document).ready(function() {
+			var socket = io.connect('127.0.0.1:5000');
+
+			socket.on('connect', function() {
+				socket.send('User has connected');
+				$('#myMessage').val('');
+			});
+
+			socket.on('message', function(msg) {
+				$("#messages").append('<li>'+msg+'</li>');
+			});
+
+			$('#sendbutton').on('click', function() {
+				socket.send($('#myMessage').val());
+				$('#myMessage').val('');
+			});
+
+			$(document).keypress(function(e) {
+				if(e.which == 13) {
+					socket.send($('#myMessage').val());
+					$('#myMessage').val('');
+				}
+
+			});
+
+		});
+	</script>
+	<ul class="mini-text undecorated" id="messages"> </ul>
+	<input class='form-control text-10px' type="text" id="myMessage">
+	<button class='small-button' id="sendbutton">send</button>
+{% endblock content %}
+	

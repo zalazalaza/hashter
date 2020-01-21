@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+	
+	<div class="left ml">
+		{% for person in tribe %}
+			<div class='tribe'>
+				<a class='' href="{{ url_for('users.user_posts', username=person.username) }}"><img class="medium-round" src="{{ url_for('static', filename='profile_pics/' + person.image_file) }}"></a>
+				<div class='ml-20 mini-text'>{{ person.username }} {{ person.id }}</div>
+				<a class="medium-button inline" href="{{ url_for('users.delete_person', user_id=person.id ) }}" onclick="return confirm('delete?');">delete</a>
+			</div>
+			
+		{% endfor %}
+		<a class="small-button left" href="{{ url_for('users.hand_invite') }}">manual invite generate</a>
+	</div>
+	<div class="ml">
+		<div class="left form-fill"> 
+			<form method="POST" action="">
+				{{ form.hidden_tag() }}
+				<fieldset class="form-group">
+					<legend >an invitation</legend>
+					
+					<div class="form-group">
+						{{ form.email.label(class="label-control") }}
+						{% if form.email.errors %}
+							<div class="alert">
+								{% for error in form.email.errors %}
+									<small class="alert-error"> {{ error }}</small>
+									{{ form.email(class="form-control")}}
+								{% endfor %}						
+							</div>
+						{% else %}
+							{{ form.email(class="form-control")}}
+						{% endif %}
+					</div>
+					
+					
+					<div class="form-group">
+						<a href="#">{{ form.submit(class="btn") }}</a>
+					</div>
+
+					
+				</fieldset>
+			</form>
+
+		</div>
+	</div>
+
+
+	
+	
+{% endblock content %}
+	

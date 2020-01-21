@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="form-fill"> 
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="half-width">
+				<legend >amnesia</legend>
+				<div class="form-group">
+					{{ form.password.label(class="label-control") }}
+					{% if form.password.errors %}
+						<div class="alert">
+							{% for error in form.password.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.password(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.password(class="form-control")}}
+					{% endif %}
+				</div>
+
+				<div class="form-group">
+					{{ form.confirm_password.label(class="label-control") }}
+					{% if form.confirm_password.errors %}
+						<div class="alert">
+							{% for error in form.confirm_password.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.confirm_password(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.confirm_password(class="form-control")}}
+					{% endif %}
+				</div>
+				
+				<div class="submit">
+					<a href="#">{{ form.submit(class="btn") }}</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+{% endblock content %}
+	

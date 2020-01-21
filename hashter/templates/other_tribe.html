@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="ml">
+		<h2> {{ user.username }}'s village</h2>
+		<img class="picture-large" src="{{ url_for('static', filename='profile_pics/' +										user.image_file) }}">
+		
+	</div>
+	<div class="">
+		{% for person in tribe %}
+			<div class='tribe ml-10'>
+				<a class='' href="{{ url_for('users.user_posts', username=person.username) }}"><img class="medium-round" src="{{ url_for('static', filename='profile_pics/' + person.image_file) }}"></a>
+				<div class='ml-20 mini-text'>{{ person.username }}</div>
+				<a class="medium-button inline" href="{{ url_for('users.add_person', user_id = person.id ) }}" onclick="return confirm('add to village?');">add</a>
+			</div>
+		{% endfor %}
+	</div>
+	
+	</div>
+
+
+	
+	
+{% endblock content %}
+	

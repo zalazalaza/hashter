@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+{% block content %}
+	
+	
+	<div class="home">
+		{% if post.author in current_user.tribe or post.author==current_user %}
+			<div class="metadata">
+				<img class=" pb-3 left very-small-round" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+				<a class="title-name" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{  post.author.username }}</a>
+				<small class="title-title"> posted </small>
+				<a class="title-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }} </a>
+				<small class="title-date">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+				
+				
+				{% if post.author == current_user %}
+					<a class="medium-button" href="{{ url_for('posts.update_post', post_id=post.id ) }}">re-begin</a>
+					<a class="medium-button" href="{{ url_for('posts.delete_post', post_id=post.id ) }}" onclick="return confirm('delete?');">delete</a>
+				{% endif %}
+
+				{% if form != None %}
+					<form class="very-small-form" method="POST" action="">
+						{{ form.hidden_tag() }}
+						{{ form.key.label(class="form-control") }}
+						{{ form.key(class="form-control very-small-form")}}
+						<a href="#">{{ form.submit(class="small-button") }}</a>
+					</form>
+				{% endif %}
+
+			</div>
+			
+		{% else %}
+			<div class="metadata">
+				<img class=" pb-3 left very-small-round" src="{{ url_for('static', filename='profile_pics/tenofcups.png') }}">
+				<a class="title-name" href="{{ url_for('main.home') }}">{{  encrypted_name }}</a>
+				<small class="title-title"> posted </small> 
+				<a class="title-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }} </a>
+				<small class="title-date">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+
+				{% if form != None %}
+					<form class="very-small-form" method="POST" action="">
+						{{ form.hidden_tag() }}
+						{{ form.key.label(class="form-control") }}
+						{{ form.key(class="form-control very-small-form")}}
+						<a href="#">{{ form.submit(class="small-button") }}</a>
+						
+					</form>
+				{% endif %}
+
+			</div>
+		{% endif%}
+			
+		
+		{% if post.image_file %}
+			{% if post.length < 470 %}
+				<img class="picture-small" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" onerror="this.src='../static/post_pics/tenofcups.png'"/>
+			{% else %}
+				<a href="{{ url_for('posts.decrypted', post_id=post.id) }}"><img class="picture-very-small" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" onerror="this.src='../static/post_pics/tenofcups.png'"/></a>
+			{% endif %}
+		{% endif %}
+		<p class="wrap eighty-five-width">{{ post.content }}</p>
+	</div>
+
+	<button class="medium-button ml" id="comment-button" value="show comments" onclick="showHide()">...show comments</button>
+
+	<div class="comments hide mb-5 ml">
+		{% for comment in comments %}
+			<div class="left whole ">
+				{% if comment.author == current_user %}
+					<a class="mini-button pb-5" href="{{ url_for('posts.delete_comment', comment_id=comment.id) }}" onclick="return confirm('delete?');">delete</a>
+				{% endif %}	
+				
+
+				{% if comment.author in tribe or comment.author==current_user %}
+
+					<a class="inline mini-text blue pb-5" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{  comment.author.username }}:  </a>
+					<div class="inline mini-text wrap ">{{ comment.content }}</div>
+				{% else %}
+					<a class="inline mini-text blue pb-5" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{  comment_encrypted_names[loop.index-1] }}:  </a>
+					<div class="inline mini-text wrap ">{{ comment.content }}</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<form class="home left form-fill" method="POST" action="">
+		{{ form2.hidden_tag() }}
+		<div class="form-group">
+			{{ form2.content.label(class="form-control") }}
+			{{ form2.content(class="form-control")}}
+			{{ form2.key.label(class="form-control") }}
+			{{ form2.key(class="form-control")}}
+			<div class="submit">
+				<a href="#">{{ form2.submit(class="small-button") }}</a>
+			</div>
+		</div>
+	</form>
+	
+	
+		
+
+{% endblock content %}
+

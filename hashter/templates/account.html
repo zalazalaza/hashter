@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="ml mt-30">
+		<div class="left">
+			<h1>{{ current_user.username }}</h1>
+			<p>{{ current_user.email }}</p>
+			<img class="picture-main" src="{{ image_file }}">
+		</div>
+		<div class="half-width left mt-50"> 
+			<form method="POST" action="" enctype="multipart/form-data">
+				{{ form.hidden_tag() }}
+				<fieldset class="form-group">
+					<legend >morphosis</legend>
+					<div class="form-group">
+						{{ form.username.label(class="label-control") }}
+						{% if form.username.errors %}
+							<div class="alert">
+								{% for error in form.username.errors %}
+									<small class="alert-error"> {{ error }}</small>
+									{{ form.username(class="form-control")}}
+								{% endfor %}						
+							</div>
+						{% else %}
+							{{ form.username(class="form-control")}}
+						{% endif %}
+						
+					</div>
+					<div class="form-group">
+						{{ form.email.label(class="label-control") }}
+						{% if form.email.errors %}
+							<div class="alert">
+								{% for error in form.email.errors %}
+									<small class="alert-error"> {{ error }}</small>
+									{{ form.email(class="form-control")}}
+								{% endfor %}						
+							</div>
+						{% else %}
+							{{ form.email(class="form-control")}}
+						{% endif %}
+					</div>
+					<div class="form-group">
+						{{ form.picture.label() }}
+						{{ form.picture() }}
+						{% if form.picture.errors %}
+							{% for error in form.picture.errors %}
+								<small class="alert-error"> {{ error }}</small></br>
+							{% endfor %}
+						{% endif %}			
+					</div>
+					<div class="form-group">
+						<div class="submit">
+							<a href="#">{{ form.submit(class="btn") }}</a>
+						</div>
+						<div class="extra">
+							{{ form.rotate(class="checkbox-input") }} 
+							{{ form.rotate.label(class="checkbox-label") }}
+						</div>
+						<div class="extra">
+							{{ form.display(class="checkbox-input") }} 
+							{{ form.display.label(class="checkbox-label") }}
+						</div>
+					</div>
+					
+				</fieldset>
+			</form>
+		</div>
+
+	</div>
+{% endblock content %}

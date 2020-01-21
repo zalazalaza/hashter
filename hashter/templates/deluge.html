@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block content %}
+	{% for post in posts.items %}
+		<div class="home">
+			{% if post.author in tribe or post.author==current_user %}
+				<div class="metadata">
+					<img class=" pb-3 left very-small-round" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+					<a class="title-name" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{  post.author.username }}</a>
+					<small class="title-title"> posted </small>
+					<a class="title-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }} </a>
+					<small class="title-date">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+				</div>
+			{% else %}
+				<div class="metadata">
+					<img class=" pb-3 left very-small-round" src="{{ url_for('static', filename='profile_pics/tenofcups.png') }}">
+					<a class="title-name" href="{{ url_for('main.home') }}">{{  encrypted_names[loop.index-1] }}</a>
+					<small class="title-title"> posted </small> 
+					<a class="title-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }} </a>
+					<small class="title-date">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+				</div>
+			{% endif%}
+					
+				
+
+			<div class="">
+			
+				{% if post.image_file %}
+					{% if post.length < 400 %}
+						<img class="picture-small-posts" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" onerror="this.src='../static/post_pics/tenofcups.png'"/>
+						<p class="wrap">{{ post.content }} {{ post.length }}<a class="smaller right red" href="{{ url_for('posts.post', post_id=post.id) }}">(inspect)</a></p>
+
+					{% elif post.length < 1100 %}
+						<img class="left picture-mini" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" onerror="this.src='../static/post_pics/tenofcups.png'"/>
+						<p class="wrap">{{ post.content }} {{ post.length }}<a class="smaller right red" href="{{ url_for('posts.post', post_id=post.id) }}">(inspect)</a></p>
+					
+					{% else %}
+						<img class="left picture-large" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" onerror="this.src='../static/post_pics/tenofcups.png'"/>
+						<p class="wrap">{{ post.content }} {{ post.length }}<a class="smaller right red" href="{{ url_for('posts.post', post_id=post.id) }}">(inspect)</a></p>
+						
+					{% endif %}
+				{% else %}
+					<p class="wrap">{{ post.content }}<a class="smaller right red" href="{{ url_for('posts.post', post_id=post.id) }}">(inspect)</a></p>
+				{% endif %}
+			</div>
+		</div>
+		
+	{% endfor %}
+	
+	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+		{% if page_num %}
+			<div class="inline padb-250">
+				{% if posts.page == page_num %}
+					{% if page_num == 1 %}
+						<a class="small-button ml" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+					{% else %}
+						<a class="small-button" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+					{% endif %}
+				{% else %}
+					{% if page_num == 1 %}
+						<a class="small-plain ml" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+					{% else %}	
+						<a class="small-plain" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+					{% endif %}
+				{% endif %}
+			</div>
+			
+		{% else %}
+			...
+		{%endif %}
+	{% endfor %}
+{% endblock content %}
+

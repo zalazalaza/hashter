@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="mt-30 ml-200"> 
+		<form method="POST" action="" enctype="multipart/form-data">
+			{{ form.hidden_tag() }}
+			<fieldset class="">
+				<legend >{{ legend }}</legend>
+				
+				<div class="form-group">
+					{{ form.title.label(class="label-control") }}
+					{% if form.title.errors %}
+						<div class="alert">
+							{% for error in form.title.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.title(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.title(class="form-control")}}
+					{% endif %}
+				</div>
+				
+				<div id="post-content" class="form-group">
+					{{ form.content.label(class="label-control") }}
+					{% if form.content.errors %}
+						<div class="alert">
+							{% for error in form.content.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.content(class="form-control-content")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.content(class="form-control-content")}}
+					{% endif %}
+				</div>
+
+				<div class="form-group">
+					{{ form.picture.label() }}
+					{{ form.picture() }}
+					{% if form.picture.errors %}
+						{% for error in form.picture.errors %}
+							<small class="alert-error"> {{ error }}</small></br>
+						{% endfor %}
+					{% endif %}			
+				</div>
+
+
+				
+				<div class="form-group">
+					{{ form.key.label(class="label-control") }}
+					{% if form.key.errors %}
+						<div class="alert">
+							{% for error in form.key.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.key(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.key(class="form-control")}}
+					{% endif %}
+				</div>
+				
+				<div class="submit">
+					<a href="#">{{ form.submit(class="btn") }}</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+{% endblock content %}
+	

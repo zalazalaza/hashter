@@ -1,0 +1,72 @@
+{% extends "unregistered.html" %}
+{% block content %}
+	<div class="form-fill"> 
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group">
+				<legend >an invitation</legend>
+				<div class="form-group">
+					{{ form.username.label(class="label-control") }}
+					{% if form.username.errors %}
+						<div class="alert">
+							{% for error in form.username.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.username(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.username(class="form-control")}}
+					{% endif %}
+					
+				</div>
+				<div class="form-group">
+					{{ form.email.label(class="label-control") }}
+					{% if form.email.errors %}
+						<div class="alert">
+							{% for error in form.email.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.email(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.email(class="form-control")}}
+					{% endif %}
+				</div>
+
+				<div class="form-group">
+					{{ form.password.label(class="label-control") }}
+					{% if form.password.errors %}
+						<div class="alert">
+							{% for error in form.password.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.password(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.password(class="form-control")}}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					{{ form.confirm_password.label(class="label-control") }}
+					{% if form.confirm_password.errors %}
+						<div class="alert">
+							{% for error in form.confirm_password.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.confirm_password(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.confirm_password(class="form-control")}}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<a href="#">{{ form.submit(class="btn") }}</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="small">
+		<small>already have an account? <a href="{{url_for('users.login') }}">sign in</a></small>
+	</div>
+{% endblock content %}
+	

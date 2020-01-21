@@ -1,0 +1,54 @@
+{% extends "unregistered.html" %}
+{% block content %}
+	<div class="form-fill"> 
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="half-width">
+				<legend >a returning</legend>
+				<div class="form-group">
+					{{ form.email.label(class="label-control") }}
+					{% if form.email.errors %}
+						<div class="alert">
+							{% for error in form.email.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.email(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.email(class="form-control")}}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					{{ form.password.label(class="label-control") }}
+					{% if form.password.errors %}
+						<div class="alert">
+							{% for error in form.password.errors %}
+								<small class="alert-error"> {{ error }}</small>
+								{{ form.password(class="form-control")}}
+							{% endfor %}						
+						</div>
+					{% else %}
+						{{ form.password(class="form-control")}}
+					{% endif %}
+				</div>
+				
+				<div class="submit">
+					<a href="#">{{ form.submit(class="btn") }}</a>
+				</div>
+				<div class="checkbox">
+					{{ form.remember(class="checkbox-input") }} 
+					{{ form.remember.label(class="checkbox-label") }}
+				</div>
+				<div class="extra">
+					<small class="small">
+						<a href="{{ url_for('users.reset_request') }}">forgot password?</a>
+					</small>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div>
+		<small class="small ">were you invited? <a href="{{url_for('users.register') }}">accept invitation</a></small>
+	</div>
+{% endblock content %}
+	

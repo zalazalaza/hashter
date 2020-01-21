@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	
+
+	{% if title %}
+		<title>hashter - {{ title }}</title>
+	{% else %}
+		<title>hashter</title>
+	{% endif %}
+</head>
+<body>
+	<header id="main-header">
+		<pre id="logo"><a href="{{ url_for('users.login') }}">::   .:   :::.     .::::::.   ::   .: ::::::::::::.,:::::: :::::::..   
+ ,;;   ;;,  ;;`;;   ;;;`    `  ,;;   ;;,;;;;;;;;'''';;;;'''' ;;;;``;;;;  
+,[[[,,,[[[ ,[[ '[[, '[==/[[[[,,[[[,,,[[[     [[      [[cccc   [[[,/[[['  
+"$$$"""$$$c$$$cc$$$c  '''    $"$$$"""$$$     $$      $$""""   $$$$$$c    
+ 888   "88o888   888,88b    dP 888   "88o    88,     888oo,__ 888b "88bo,
+ MMM    YMMYMM   ""`  "YMmMY"  MMM    YMM    MMM     """"YUMMMMMMM   "W"</a></pre>
+	</header>
+	<nav id="chat-navbar">
+
+		<ul>
+			<li><a href="{{ url_for('main.home') }}">home</a></li>
+			
+			
+			<li><a href="{{ url_for('main.chat') }}" target="_blank">quiet</a></li>
+			
+			{% if current_user.is_authenticated %}
+				
+				<li><a href="{{url_for('users.logout') }}">logout</a></li>
+			{% else %}
+				<li><a href="{{url_for('users.register') }}">register</a></li>
+				<li><a href="{{url_for('users.login') }}">login</a></li>
+			{% endif %}
+		</ul>
+	</nav>
+
+	<div class="blog-text">
+		{%  with messages = get_flashed_messages(with_categories=true)%}
+			{% if messages %}
+				{% for category, message in messages %}
+					<div class="alert alert-{{ category }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		{% block content %}{% endblock %}
+	</div>
+</body>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</html>

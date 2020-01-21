@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+	{% if user.temp_image %}
+		<img class="ml" src="{{ url_for('static', filename='post_pics/' + user.temp_image) }}">
+	{% else %}
+		<img class="ml left" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" onerror="this.src='../static/post_pics/tenofcups.png'">
+	{% endif %}
+{% endblock content %}
+	
